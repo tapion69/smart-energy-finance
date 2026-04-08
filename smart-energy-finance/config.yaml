@@ -1,0 +1,231 @@
+name: "Smart Energy Finance"
+version: "0.1.0"
+slug: smart_energy_finance
+description: "Universal energy financial engine for Home Assistant"
+
+arch:
+  - aarch64
+  - amd64
+  - armv7
+  - armhf
+  - i386
+
+startup: services
+boot: auto
+init: false
+homeassistant_api: true
+
+map:
+  - type: addon_config
+    read_only: false
+  - type: homeassistant_config
+    read_only: false
+
+ports:
+  1892/tcp: 1892
+
+panel_icon: mdi:cash-multiple
+
+options:
+  # ============================================================
+  # 🌍 GENERAL
+  # ============================================================
+  general_section: "────────── GENERAL ──────────"
+  currency: "EUR"
+
+  # ============================================================
+  # 📜 CONTRACT
+  # ============================================================
+  contract_section: "────────── CONTRACT ──────────"
+  contract_type: "fixed"
+  monthly_subscription_price: 0
+
+  # Fixed import/export prices
+  fixed_import_price: 0
+  fixed_export_price: 0
+
+  # Time-based tariffs
+  tariff_1_name: "peak"
+  tariff_1_price: 0
+  tariff_1_start: "06:00"
+  tariff_1_end: "22:00"
+
+  tariff_2_name: "off_peak"
+  tariff_2_price: 0
+  tariff_2_start: "22:00"
+  tariff_2_end: "06:00"
+
+  tariff_3_name: ""
+  tariff_3_price: 0
+  tariff_3_start: ""
+  tariff_3_end: ""
+
+  tariff_4_name: ""
+  tariff_4_price: 0
+  tariff_4_start: ""
+  tariff_4_end: ""
+
+  # ============================================================
+  # ☀️ SOLAR
+  # ============================================================
+  solar_section: "────────── SOLAR ──────────"
+  solar_enabled: true
+  solar_input_mode: "energy"
+  solar_energy_entity: ""
+  solar_power_entity: ""
+
+  # ============================================================
+  # 🏠 LOAD
+  # ============================================================
+  load_section: "────────── LOAD ──────────"
+  load_enabled: true
+  load_input_mode: "energy"
+  load_energy_entity: ""
+  load_power_entity: ""
+
+  # ============================================================
+  # 🔋 BATTERY
+  # ============================================================
+  battery_section: "────────── BATTERY ──────────"
+  battery_enabled: false
+  battery_input_mode: "energy"
+  battery_charge_energy_entity: ""
+  battery_discharge_energy_entity: ""
+  battery_charge_power_entity: ""
+  battery_discharge_power_entity: ""
+
+  # Premium battery info
+  battery_capacity_ah: 0
+  battery_total_capacity_kwh: 0
+  battery_purchase_cost: 0
+  battery_cycle_life: 0
+
+  # ============================================================
+  # 🌐 GRID / IMPORT EXPORT
+  # ============================================================
+  grid_section: "────────── GRID / IMPORT EXPORT ──────────"
+  grid_enabled: true
+  grid_input_mode: "energy"
+  grid_import_energy_entity: ""
+  grid_export_energy_entity: ""
+  grid_import_power_entity: ""
+  grid_export_power_entity: ""
+
+  # ============================================================
+  # 📡 MQTT CONFIGURATION
+  # ============================================================
+  mqtt_section: "────────── MQTT CONFIGURATION ──────────"
+  mqtt_host: "core-mosquitto"
+  mqtt_port: 1883
+  mqtt_user: ""
+  mqtt_pass: ""
+
+  # ============================================================
+  # 👑 PREMIUM
+  # ============================================================
+  premium_section: "────────── PREMIUM ──────────"
+  premium_key: ""
+
+  # ============================================================
+  # 🎨 DASHBOARD
+  # ============================================================
+  dashboard_section: "────────── DASHBOARD ──────────"
+  dashboard_custom_cards_installed: false
+  dashboard_language: "en"
+
+  # ============================================================
+  # 🌍 TIMEZONE
+  # ============================================================
+  timezone_section: "────────── TIMEZONE ──────────"
+  timezone_mode: "Europe/Paris"
+  timezone_custom: ""
+
+schema:
+  # General
+  general_section: str?
+  currency: list(EUR|USD|GBP|CAD|AUD|CHF|JPY|CNY|INR|BRL|ZAR|CUSTOM)
+
+  # Contract
+  contract_section: str?
+  contract_type: list(fixed|time_based)
+  monthly_subscription_price: float?
+
+  fixed_import_price: float?
+  fixed_export_price: float?
+
+  tariff_1_name: str?
+  tariff_1_price: float?
+  tariff_1_start: str?
+  tariff_1_end: str?
+
+  tariff_2_name: str?
+  tariff_2_price: float?
+  tariff_2_start: str?
+  tariff_2_end: str?
+
+  tariff_3_name: str?
+  tariff_3_price: float?
+  tariff_3_start: str?
+  tariff_3_end: str?
+
+  tariff_4_name: str?
+  tariff_4_price: float?
+  tariff_4_start: str?
+  tariff_4_end: str?
+
+  # Solar
+  solar_section: str?
+  solar_enabled: bool
+  solar_input_mode: list(energy|power)
+  solar_energy_entity: str?
+  solar_power_entity: str?
+
+  # Load
+  load_section: str?
+  load_enabled: bool
+  load_input_mode: list(energy|power)
+  load_energy_entity: str?
+  load_power_entity: str?
+
+  # Battery
+  battery_section: str?
+  battery_enabled: bool
+  battery_input_mode: list(energy|power)
+  battery_charge_energy_entity: str?
+  battery_discharge_energy_entity: str?
+  battery_charge_power_entity: str?
+  battery_discharge_power_entity: str?
+  battery_capacity_ah: float?
+  battery_total_capacity_kwh: float?
+  battery_purchase_cost: float?
+  battery_cycle_life: int?
+
+  # Grid
+  grid_section: str?
+  grid_enabled: bool
+  grid_input_mode: list(energy|power)
+  grid_import_energy_entity: str?
+  grid_export_energy_entity: str?
+  grid_import_power_entity: str?
+  grid_export_power_entity: str?
+
+  # MQTT
+  mqtt_section: str?
+  mqtt_host: str
+  mqtt_port: int
+  mqtt_user: str
+  mqtt_pass: password
+
+  # Premium
+  premium_section: str?
+  premium_key: str?
+
+  # Dashboard
+  dashboard_section: str?
+  dashboard_custom_cards_installed: bool
+  dashboard_language: list(en|fr)
+
+  # Timezone
+  timezone_section: str?
+  timezone_mode: list(UTC|Europe/Paris|Europe/Berlin|Europe/Brussels|Europe/Madrid|Europe/Rome|Europe/London|Africa/Johannesburg|Africa/Casablanca|America/New_York|America/Chicago|America/Los_Angeles|America/Montreal|Asia/Dubai|Asia/Tokyo|Australia/Sydney|CUSTOM)
+  timezone_custom: str?
