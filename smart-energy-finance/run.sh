@@ -455,5 +455,5 @@ logi "- Grid: $GRID_ENABLED ($GRID_INPUT_MODE)"
 # ============================================================
 # START
 # ============================================================
-logi "Starting Node-RED sur le port 1892..."
+logi "Starting Node-RED sur le port 1894..."
 exec node-red --userDir /data --settings /addon/settings.js
