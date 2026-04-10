@@ -22,7 +22,7 @@ map:
     read_only: false
 
 ports:
-  1892/tcp: 1892
+  1894/tcp: 1894
 
 panel_icon: mdi:cash-multiple
 
