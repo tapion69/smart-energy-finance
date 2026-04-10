@@ -1,0 +1,193 @@
+configuration:
+  general_section:
+    name: "────────── GÉNÉRAL ──────────"
+  currency:
+    name: "Devise"
+  mqtt_prefix:
+    name: "Préfixe MQTT"
+
+  contract_section:
+    name: "────────── CONTRAT ──────────"
+  contract_type:
+    name: "Type de contrat"
+    options:
+      fixed: "Fixe"
+      time_based: "Plages horaires"
+      tempo: "Tempo"
+  monthly_subscription_price:
+    name: "Prix abonnement mensuel"
+
+  fixed_import_price:
+    name: "Prix import fixe par kWh"
+  fixed_export_price:
+    name: "Prix export fixe par kWh"
+
+  tariff_1_name:
+    name: "Nom tarif 1"
+  tariff_1_price:
+    name: "Prix tarif 1"
+  tariff_1_start:
+    name: "Début tarif 1"
+  tariff_1_end:
+    name: "Fin tarif 1"
+
+  tariff_2_name:
+    name: "Nom tarif 2"
+  tariff_2_price:
+    name: "Prix tarif 2"
+  tariff_2_start:
+    name: "Début tarif 2"
+  tariff_2_end:
+    name: "Fin tarif 2"
+
+  tariff_3_name:
+    name: "Nom tarif 3"
+  tariff_3_price:
+    name: "Prix tarif 3"
+  tariff_3_start:
+    name: "Début tarif 3"
+  tariff_3_end:
+    name: "Fin tarif 3"
+
+  tariff_4_name:
+    name: "Nom tarif 4"
+  tariff_4_price:
+    name: "Prix tarif 4"
+  tariff_4_start:
+    name: "Début tarif 4"
+  tariff_4_end:
+    name: "Fin tarif 4"
+
+  tempo_section:
+    name: "────────── TEMPO ──────────"
+  tempo_color_entity:
+    name: "Entité couleur Tempo"
+  tempo_blue_hc_price:
+    name: "Tempo bleu HC"
+  tempo_blue_hp_price:
+    name: "Tempo bleu HP"
+  tempo_white_hc_price:
+    name: "Tempo blanc HC"
+  tempo_white_hp_price:
+    name: "Tempo blanc HP"
+  tempo_red_hc_price:
+    name: "Tempo rouge HC"
+  tempo_red_hp_price:
+    name: "Tempo rouge HP"
+  tempo_hc_slot_1_start:
+    name: "Début plage HC Tempo 1"
+  tempo_hc_slot_1_end:
+    name: "Fin plage HC Tempo 1"
+  tempo_hc_slot_2_start:
+    name: "Début plage HC Tempo 2"
+  tempo_hc_slot_2_end:
+    name: "Fin plage HC Tempo 2"
+  tempo_hc_slot_3_start:
+    name: "Début plage HC Tempo 3"
+  tempo_hc_slot_3_end:
+    name: "Fin plage HC Tempo 3"
+
+  solar_section:
+    name: "────────── SOLAIRE ──────────"
+  solar_enabled:
+    name: "Activer le solaire"
+  solar_input_mode:
+    name: "Mode entrée solaire"
+    options:
+      energy: "Énergie"
+      power: "Puissance"
+  solar_energy_entity:
+    name: "Entité énergie solaire"
+  solar_power_entity:
+    name: "Entité puissance solaire"
+
+  load_section:
+    name: "────────── CONSOMMATION ──────────"
+  load_enabled:
+    name: "Activer la consommation"
+  load_input_mode:
+    name: "Mode entrée consommation"
+    options:
+      energy: "Énergie"
+      power: "Puissance"
+  load_energy_entity:
+    name: "Entité énergie consommation"
+  load_power_entity:
+    name: "Entité puissance consommation"
+
+  battery_section:
+    name: "────────── BATTERIE ──────────"
+  battery_enabled:
+    name: "Activer la batterie"
+  battery_input_mode:
+    name: "Mode entrée batterie"
+    options:
+      energy: "Énergie"
+      power: "Puissance"
+  battery_charge_energy_entity:
+    name: "Entité énergie charge batterie"
+  battery_discharge_energy_entity:
+    name: "Entité énergie décharge batterie"
+  battery_charge_power_entity:
+    name: "Entité puissance charge batterie"
+  battery_discharge_power_entity:
+    name: "Entité puissance décharge batterie"
+  battery_capacity_ah:
+    name: "Capacité batterie en Ah"
+  battery_total_capacity_kwh:
+    name: "Capacité totale batterie en kWh"
+  battery_purchase_cost:
+    name: "Coût batterie"
+  battery_cycle_life:
+    name: "Durée de vie en cycles"
+
+  grid_section:
+    name: "────────── RÉSEAU / IMPORT EXPORT ──────────"
+  grid_enabled:
+    name: "Activer le réseau"
+  grid_input_mode:
+    name: "Mode entrée réseau"
+    options:
+      energy: "Énergie"
+      power: "Puissance"
+  grid_import_energy_entity:
+    name: "Entité énergie import réseau"
+  grid_export_energy_entity:
+    name: "Entité énergie export réseau"
+  grid_import_power_entity:
+    name: "Entité puissance import réseau"
+  grid_export_power_entity:
+    name: "Entité puissance export réseau"
+
+  mqtt_section:
+    name: "────────── MQTT ──────────"
+  mqtt_host:
+    name: "Hôte MQTT"
+  mqtt_port:
+    name: "Port MQTT"
+  mqtt_user:
+    name: "Utilisateur MQTT"
+  mqtt_pass:
+    name: "Mot de passe MQTT"
+
+  premium_section:
+    name: "────────── PREMIUM ──────────"
+  premium_key:
+    name: "Clé Premium"
+
+  dashboard_section:
+    name: "────────── DASHBOARD ──────────"
+  dashboard_custom_cards_installed:
+    name: "Cartes personnalisées installées"
+  dashboard_language:
+    name: "Langue du dashboard"
+    options:
+      en: "Anglais"
+      fr: "Français"
+
+  timezone_section:
+    name: "────────── FUSEAU HORAIRE ──────────"
+  timezone_mode:
+    name: "Fuseau horaire"
+  timezone_custom:
+    name: "Fuseau horaire personnalisé"
