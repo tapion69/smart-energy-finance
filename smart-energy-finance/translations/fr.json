@@ -1,98 +1,97 @@
 {
-  "title": "Smart Energy Finance",
-  "config": {
-    "step": {
-      "init": {
-        "title": "Configuration Smart Energy Finance",
-        "description": "Configurez votre moteur de calcul des économies d'énergie."
-      }
-    }
-  },
-  "options": {
-    "step": {
-      "init": {
-        "title": "Options Smart Energy Finance",
-        "data": {
+  "configuration": {
+    "general_section": "────────── GÉNÉRAL ──────────",
+    "currency": "Devise",
+    "mqtt_prefix": "Préfixe MQTT",
 
-          "currency": "Devise",
+    "contract_section": "────────── CONTRAT ──────────",
+    "contract_type": "Type de contrat",
+    "monthly_subscription_price": "Prix abonnement mensuel",
+    "fixed_import_price": "Prix import fixe par kWh",
+    "fixed_export_price": "Prix export fixe par kWh",
 
-          "contract_type": "Type de contrat",
-          "monthly_subscription_price": "Prix abonnement mensuel (€)",
+    "tariff_1_name": "Nom tarif 1",
+    "tariff_1_price": "Prix tarif 1",
+    "tariff_1_start": "Début tarif 1",
+    "tariff_1_end": "Fin tarif 1",
 
-          "fixed_import_price": "Prix import (€/kWh)",
-          "fixed_export_price": "Prix export (€/kWh)",
+    "tariff_2_name": "Nom tarif 2",
+    "tariff_2_price": "Prix tarif 2",
+    "tariff_2_start": "Début tarif 2",
+    "tariff_2_end": "Fin tarif 2",
 
-          "tariff_1_name": "Nom tarif 1",
-          "tariff_1_price": "Prix tarif 1 (€/kWh)",
-          "tariff_1_start": "Début tarif 1 (HH:MM)",
-          "tariff_1_end": "Fin tarif 1 (HH:MM)",
+    "tariff_3_name": "Nom tarif 3",
+    "tariff_3_price": "Prix tarif 3",
+    "tariff_3_start": "Début tarif 3",
+    "tariff_3_end": "Fin tarif 3",
 
-          "tariff_2_name": "Nom tarif 2",
-          "tariff_2_price": "Prix tarif 2 (€/kWh)",
-          "tariff_2_start": "Début tarif 2 (HH:MM)",
-          "tariff_2_end": "Fin tarif 2 (HH:MM)",
+    "tariff_4_name": "Nom tarif 4",
+    "tariff_4_price": "Prix tarif 4",
+    "tariff_4_start": "Début tarif 4",
+    "tariff_4_end": "Fin tarif 4",
 
-          "tariff_3_name": "Nom tarif 3",
-          "tariff_3_price": "Prix tarif 3 (€/kWh)",
-          "tariff_3_start": "Début tarif 3 (HH:MM)",
-          "tariff_3_end": "Fin tarif 3 (HH:MM)",
+    "tempo_section": "────────── TEMPO ──────────",
+    "tempo_color_entity": "Entité couleur Tempo",
+    "tempo_blue_hc_price": "Tempo bleu HC",
+    "tempo_blue_hp_price": "Tempo bleu HP",
+    "tempo_white_hc_price": "Tempo blanc HC",
+    "tempo_white_hp_price": "Tempo blanc HP",
+    "tempo_red_hc_price": "Tempo rouge HC",
+    "tempo_red_hp_price": "Tempo rouge HP",
+    "tempo_hc_slot_1_start": "Début plage HC Tempo 1",
+    "tempo_hc_slot_1_end": "Fin plage HC Tempo 1",
+    "tempo_hc_slot_2_start": "Début plage HC Tempo 2",
+    "tempo_hc_slot_2_end": "Fin plage HC Tempo 2",
+    "tempo_hc_slot_3_start": "Début plage HC Tempo 3",
+    "tempo_hc_slot_3_end": "Fin plage HC Tempo 3",
 
-          "tariff_4_name": "Nom tarif 4",
-          "tariff_4_price": "Prix tarif 4 (€/kWh)",
-          "tariff_4_start": "Début tarif 4 (HH:MM)",
-          "tariff_4_end": "Fin tarif 4 (HH:MM)",
+    "solar_section": "────────── SOLAIRE ──────────",
+    "solar_enabled": "Activer le solaire",
+    "solar_input_mode": "Mode entrée solaire",
+    "solar_energy_entity": "Entité énergie solaire",
+    "solar_power_entity": "Entité puissance solaire",
 
-          "tempo_color_entity": "Entité couleur Tempo",
-          "tempo_blue_hc_price": "Tempo Bleu HC (€/kWh)",
-          "tempo_blue_hp_price": "Tempo Bleu HP (€/kWh)",
-          "tempo_white_hc_price": "Tempo Blanc HC (€/kWh)",
-          "tempo_white_hp_price": "Tempo Blanc HP (€/kWh)",
-          "tempo_red_hc_price": "Tempo Rouge HC (€/kWh)",
-          "tempo_red_hp_price": "Tempo Rouge HP (€/kWh)",
+    "load_section": "────────── CONSOMMATION ──────────",
+    "load_enabled": "Activer la consommation",
+    "load_input_mode": "Mode entrée consommation",
+    "load_energy_entity": "Entité énergie consommation",
+    "load_power_entity": "Entité puissance consommation",
 
-          "solar_enabled": "Activer le solaire",
-          "solar_input_mode": "Mode entrée solaire",
-          "solar_energy_entity": "Entité énergie solaire (kWh)",
-          "solar_power_entity": "Entité puissance solaire (W)",
+    "battery_section": "────────── BATTERIE ──────────",
+    "battery_enabled": "Activer la batterie",
+    "battery_input_mode": "Mode entrée batterie",
+    "battery_charge_energy_entity": "Entité énergie charge batterie",
+    "battery_discharge_energy_entity": "Entité énergie décharge batterie",
+    "battery_charge_power_entity": "Entité puissance charge batterie",
+    "battery_discharge_power_entity": "Entité puissance décharge batterie",
+    "battery_capacity_ah": "Capacité batterie en Ah",
+    "battery_total_capacity_kwh": "Capacité totale batterie en kWh",
+    "battery_purchase_cost": "Coût batterie",
+    "battery_cycle_life": "Durée de vie en cycles",
 
-          "load_enabled": "Activer la consommation",
-          "load_input_mode": "Mode entrée consommation",
-          "load_energy_entity": "Entité énergie consommation (kWh)",
-          "load_power_entity": "Entité puissance consommation (W)",
+    "grid_section": "────────── RÉSEAU / IMPORT EXPORT ──────────",
+    "grid_enabled": "Activer le réseau",
+    "grid_input_mode": "Mode entrée réseau",
+    "grid_import_energy_entity": "Entité énergie import réseau",
+    "grid_export_energy_entity": "Entité énergie export réseau",
+    "grid_import_power_entity": "Entité puissance import réseau",
+    "grid_export_power_entity": "Entité puissance export réseau",
 
-          "battery_enabled": "Activer la batterie",
-          "battery_input_mode": "Mode entrée batterie",
-          "battery_charge_energy_entity": "Énergie charge batterie (kWh)",
-          "battery_discharge_energy_entity": "Énergie décharge batterie (kWh)",
-          "battery_charge_power_entity": "Puissance charge batterie (W)",
-          "battery_discharge_power_entity": "Puissance décharge batterie (W)",
-          "battery_capacity_ah": "Capacité batterie (Ah)",
-          "battery_total_capacity_kwh": "Capacité totale batterie (kWh)",
-          "battery_purchase_cost": "Coût batterie (€)",
-          "battery_cycle_life": "Nombre de cycles batterie",
+    "mqtt_section": "────────── MQTT ──────────",
+    "mqtt_host": "Hôte MQTT",
+    "mqtt_port": "Port MQTT",
+    "mqtt_user": "Utilisateur MQTT",
+    "mqtt_pass": "Mot de passe MQTT",
 
-          "grid_enabled": "Activer le réseau",
-          "grid_input_mode": "Mode entrée réseau",
-          "grid_import_energy_entity": "Énergie import réseau (kWh)",
-          "grid_export_energy_entity": "Énergie export réseau (kWh)",
-          "grid_import_power_entity": "Puissance import réseau (W)",
-          "grid_export_power_entity": "Puissance export réseau (W)",
+    "premium_section": "────────── PREMIUM ──────────",
+    "premium_key": "Clé Premium",
 
-          "mqtt_host": "Hôte MQTT",
-          "mqtt_port": "Port MQTT",
-          "mqtt_user": "Utilisateur MQTT",
-          "mqtt_pass": "Mot de passe MQTT",
-          "mqtt_prefix": "Préfixe MQTT",
+    "dashboard_section": "────────── DASHBOARD ──────────",
+    "dashboard_custom_cards_installed": "Cartes personnalisées installées",
+    "dashboard_language": "Langue du dashboard",
 
-          "premium_key": "Clé Premium",
-
-          "dashboard_custom_cards_installed": "Cartes personnalisées installées",
-          "dashboard_language": "Langue du dashboard",
-
-          "timezone_mode": "Fuseau horaire",
-          "timezone_custom": "Fuseau horaire personnalisé"
-        }
-      }
-    }
+    "timezone_section": "────────── FUSEAU HORAIRE ──────────",
+    "timezone_mode": "Fuseau horaire",
+    "timezone_custom": "Fuseau horaire personnalisé"
   }
 }
