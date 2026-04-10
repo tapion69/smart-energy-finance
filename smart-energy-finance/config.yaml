@@ -40,7 +40,7 @@ options:
   contract_type: "fixed"
   monthly_subscription_price: 0
 
-  # Fixed import/export prices
+  # Fixed contract
   fixed_import_price: 0
   fixed_export_price: 0
 
@@ -64,6 +64,18 @@ options:
   tariff_4_price: 0
   tariff_4_start: ""
   tariff_4_end: ""
+
+  # ============================================================
+  # 🇫🇷 TEMPO
+  # ============================================================
+  tempo_section: "────────── TEMPO ──────────"
+  tempo_color_entity: ""
+  tempo_blue_hc_price: 0
+  tempo_blue_hp_price: 0
+  tempo_white_hc_price: 0
+  tempo_white_hp_price: 0
+  tempo_red_hc_price: 0
+  tempo_red_hp_price: 0
 
   # ============================================================
   # ☀️ SOLAR
@@ -147,7 +159,7 @@ schema:
 
   # Contract
   contract_section: str?
-  contract_type: list(fixed|time_based)
+  contract_type: list(fixed|time_based|tempo)
   monthly_subscription_price: float?
 
   fixed_import_price: float?
@@ -172,6 +184,16 @@ schema:
   tariff_4_price: float?
   tariff_4_start: str?
   tariff_4_end: str?
+
+  # Tempo
+  tempo_section: str?
+  tempo_color_entity: str?
+  tempo_blue_hc_price: float?
+  tempo_blue_hp_price: float?
+  tempo_white_hc_price: float?
+  tempo_white_hp_price: float?
+  tempo_red_hc_price: float?
+  tempo_red_hp_price: float?
 
   # Solar
   solar_section: str?
