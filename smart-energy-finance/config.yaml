@@ -27,24 +27,17 @@ ports:
 panel_icon: mdi:cash-multiple
 
 options:
-  # ============================================================
-  # 🌍 GENERAL
-  # ============================================================
   general_section: "────────── GENERAL ──────────"
   currency: "EUR"
+  mqtt_prefix: "smart_energy_finance"
 
-  # ============================================================
-  # 📜 CONTRACT
-  # ============================================================
   contract_section: "────────── CONTRACT ──────────"
   contract_type: "fixed"
   monthly_subscription_price: 0
 
-  # Fixed contract
   fixed_import_price: 0
   fixed_export_price: 0
 
-  # Time-based tariffs
   tariff_1_name: "peak"
   tariff_1_price: 0
   tariff_1_start: "06:00"
@@ -65,9 +58,6 @@ options:
   tariff_4_start: ""
   tariff_4_end: ""
 
-  # ============================================================
-  # 🇫🇷 TEMPO
-  # ============================================================
   tempo_section: "────────── TEMPO ──────────"
   tempo_color_entity: ""
   tempo_blue_hc_price: 0
@@ -77,27 +67,25 @@ options:
   tempo_red_hc_price: 0
   tempo_red_hp_price: 0
 
-  # ============================================================
-  # ☀️ SOLAR
-  # ============================================================
+  tempo_hc_slot_1_start: "22:00"
+  tempo_hc_slot_1_end: "06:00"
+  tempo_hc_slot_2_start: ""
+  tempo_hc_slot_2_end: ""
+  tempo_hc_slot_3_start: ""
+  tempo_hc_slot_3_end: ""
+
   solar_section: "────────── SOLAR ──────────"
   solar_enabled: true
   solar_input_mode: "energy"
   solar_energy_entity: ""
   solar_power_entity: ""
 
-  # ============================================================
-  # 🏠 LOAD
-  # ============================================================
   load_section: "────────── LOAD ──────────"
   load_enabled: true
   load_input_mode: "energy"
   load_energy_entity: ""
   load_power_entity: ""
 
-  # ============================================================
-  # 🔋 BATTERY
-  # ============================================================
   battery_section: "────────── BATTERY ──────────"
   battery_enabled: false
   battery_input_mode: "energy"
@@ -105,16 +93,11 @@ options:
   battery_discharge_energy_entity: ""
   battery_charge_power_entity: ""
   battery_discharge_power_entity: ""
-
-  # Premium battery info
   battery_capacity_ah: 0
   battery_total_capacity_kwh: 0
   battery_purchase_cost: 0
   battery_cycle_life: 0
 
-  # ============================================================
-  # 🌐 GRID / IMPORT EXPORT
-  # ============================================================
   grid_section: "────────── GRID / IMPORT EXPORT ──────────"
   grid_enabled: true
   grid_input_mode: "energy"
@@ -123,41 +106,28 @@ options:
   grid_import_power_entity: ""
   grid_export_power_entity: ""
 
-  # ============================================================
-  # 📡 MQTT CONFIGURATION
-  # ============================================================
   mqtt_section: "────────── MQTT CONFIGURATION ──────────"
   mqtt_host: "core-mosquitto"
   mqtt_port: 1883
   mqtt_user: ""
   mqtt_pass: ""
 
-  # ============================================================
-  # 👑 PREMIUM
-  # ============================================================
   premium_section: "────────── PREMIUM ──────────"
   premium_key: ""
 
-  # ============================================================
-  # 🎨 DASHBOARD
-  # ============================================================
   dashboard_section: "────────── DASHBOARD ──────────"
   dashboard_custom_cards_installed: false
   dashboard_language: "en"
 
-  # ============================================================
-  # 🌍 TIMEZONE
-  # ============================================================
   timezone_section: "────────── TIMEZONE ──────────"
   timezone_mode: "Europe/Paris"
   timezone_custom: ""
 
 schema:
-  # General
   general_section: str?
   currency: list(EUR|USD|GBP|CAD|AUD|CHF|JPY|CNY|INR|BRL|ZAR|CUSTOM)
+  mqtt_prefix: str?
 
-  # Contract
   contract_section: str?
   contract_type: list(fixed|time_based|tempo)
   monthly_subscription_price: float?
@@ -185,7 +155,6 @@ schema:
   tariff_4_start: str?
   tariff_4_end: str?
 
-  # Tempo
   tempo_section: str?
   tempo_color_entity: str?
   tempo_blue_hc_price: float?
@@ -194,22 +163,25 @@ schema:
   tempo_white_hp_price: float?
   tempo_red_hc_price: float?
   tempo_red_hp_price: float?
+  tempo_hc_slot_1_start: str?
+  tempo_hc_slot_1_end: str?
+  tempo_hc_slot_2_start: str?
+  tempo_hc_slot_2_end: str?
+  tempo_hc_slot_3_start: str?
+  tempo_hc_slot_3_end: str?
 
-  # Solar
   solar_section: str?
   solar_enabled: bool
   solar_input_mode: list(energy|power)
   solar_energy_entity: str?
   solar_power_entity: str?
 
-  # Load
   load_section: str?
   load_enabled: bool
   load_input_mode: list(energy|power)
   load_energy_entity: str?
   load_power_entity: str?
 
-  # Battery
   battery_section: str?
   battery_enabled: bool
   battery_input_mode: list(energy|power)
@@ -222,7 +194,6 @@ schema:
   battery_purchase_cost: float?
   battery_cycle_life: int?
 
-  # Grid
   grid_section: str?
   grid_enabled: bool
   grid_input_mode: list(energy|power)
@@ -231,23 +202,19 @@ schema:
   grid_import_power_entity: str?
   grid_export_power_entity: str?
 
-  # MQTT
   mqtt_section: str?
   mqtt_host: str
   mqtt_port: int
   mqtt_user: str
   mqtt_pass: password
 
-  # Premium
   premium_section: str?
   premium_key: str?
 
-  # Dashboard
   dashboard_section: str?
   dashboard_custom_cards_installed: bool
   dashboard_language: list(en|fr)
 
-  # Timezone
   timezone_section: str?
   timezone_mode: list(UTC|Europe/Paris|Europe/Berlin|Europe/Brussels|Europe/Madrid|Europe/Rome|Europe/London|Africa/Johannesburg|Africa/Casablanca|America/New_York|America/Chicago|America/Los_Angeles|America/Montreal|Asia/Dubai|Asia/Tokyo|Australia/Sydney|CUSTOM)
   timezone_custom: str?
