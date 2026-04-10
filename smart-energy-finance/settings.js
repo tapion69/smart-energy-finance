@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-    uiPort: process.env.PORT || 1892,
+    uiPort: process.env.PORT || 1894,
     uiHost: "0.0.0.0",
 
     flowFile: "flows.json",
