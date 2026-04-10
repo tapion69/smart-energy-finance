@@ -28,9 +28,6 @@ if [ ! -f "$OPTS" ]; then
   exit 1
 fi
 
-# ============================================================
-# HELPERS
-# ============================================================
 jq_str_or() {
   local jq_expr="$1"
   local fallback="$2"
@@ -129,27 +126,6 @@ validate_timezone_or_fallback() {
   fi
 }
 
-patch_flow_global_env() {
-  local key="$1"
-  local value="$2"
-
-  jq \
-    --arg k "$key" \
-    --arg v "$value" \
-    '
-    map(
-      if .type=="tab"
-      then .
-      else .
-      end
-    )
-    ' /data/flows.json > "$TMP" && mv "$TMP" /data/flows.json
-
-  # volontairement vide pour le moment :
-  # les variables sont surtout passées via env + Node-RED settings.
-  return 0
-}
-
 # ============================================================
 # PREMIUM
 # ============================================================
@@ -164,16 +140,16 @@ SMART_ENERGY_FINANCE_PREMIUM_KEY="$(jq -r '.premium_key // ""' "$OPTS")"
 export SMART_ENERGY_FINANCE_INSTALL_ID
 export SMART_ENERGY_FINANCE_PREMIUM_KEY
 
+# Compatibilité éventuelle
+export SMART_VOLTRONIC_INSTANCE_ID="$SMART_ENERGY_FINANCE_INSTALL_ID"
+export SMART_VOLTRONIC_PREMIUM_KEY="$SMART_ENERGY_FINANCE_PREMIUM_KEY"
+
 logi "Premium install_id: $SMART_ENERGY_FINANCE_INSTALL_ID"
 if [ -n "$SMART_ENERGY_FINANCE_PREMIUM_KEY" ]; then
   logi "Premium key: configured"
 else
   logi "Premium key: not configured"
 fi
-
-# Compat legacy éventuelle si certains flows réutilisent l'ancien nommage
-export SMART_VOLTRONIC_INSTANCE_ID="$SMART_ENERGY_FINANCE_INSTALL_ID"
-export SMART_VOLTRONIC_PREMIUM_KEY="$SMART_ENERGY_FINANCE_PREMIUM_KEY"
 
 # ============================================================
 # DASHBOARD
@@ -188,15 +164,53 @@ logi "Dashboard custom cards installed: $DASHBOARD_CUSTOM_CARDS_INSTALLED"
 logi "Dashboard language: $DASHBOARD_LANGUAGE"
 
 # ============================================================
-# GENERAL / CONTRACT / INPUT MODES
+# GENERAL / CONTRACT
 # ============================================================
-CURRENCY="$(jq -r '.currency // "EUR"' "$OPTS")"
+CURRENCY_RAW="$(jq -r '.currency // "EUR"' "$OPTS")"
+if [ "$CURRENCY_RAW" = "CUSTOM" ]; then
+  CURRENCY="CUSTOM"
+else
+  CURRENCY="$CURRENCY_RAW"
+fi
+
 CONTRACT_TYPE="$(jq -r '.contract_type // "fixed"' "$OPTS")"
 MONTHLY_SUBSCRIPTION_PRICE="$(jq_num_or '.monthly_subscription_price' 0)"
-
 FIXED_IMPORT_PRICE="$(jq_num_or '.fixed_import_price' 0)"
 FIXED_EXPORT_PRICE="$(jq_num_or '.fixed_export_price' 0)"
 
+# Tarifs time_based
+TARIFF_1_NAME="$(jq -r '.tariff_1_name // ""' "$OPTS")"
+TARIFF_1_PRICE="$(jq_num_or '.tariff_1_price' 0)"
+TARIFF_1_START="$(jq -r '.tariff_1_start // ""' "$OPTS")"
+TARIFF_1_END="$(jq -r '.tariff_1_end // ""' "$OPTS")"
+
+TARIFF_2_NAME="$(jq -r '.tariff_2_name // ""' "$OPTS")"
+TARIFF_2_PRICE="$(jq_num_or '.tariff_2_price' 0)"
+TARIFF_2_START="$(jq -r '.tariff_2_start // ""' "$OPTS")"
+TARIFF_2_END="$(jq -r '.tariff_2_end // ""' "$OPTS")"
+
+TARIFF_3_NAME="$(jq -r '.tariff_3_name // ""' "$OPTS")"
+TARIFF_3_PRICE="$(jq_num_or '.tariff_3_price' 0)"
+TARIFF_3_START="$(jq -r '.tariff_3_start // ""' "$OPTS")"
+TARIFF_3_END="$(jq -r '.tariff_3_end // ""' "$OPTS")"
+
+TARIFF_4_NAME="$(jq -r '.tariff_4_name // ""' "$OPTS")"
+TARIFF_4_PRICE="$(jq_num_or '.tariff_4_price' 0)"
+TARIFF_4_START="$(jq -r '.tariff_4_start // ""' "$OPTS")"
+TARIFF_4_END="$(jq -r '.tariff_4_end // ""' "$OPTS")"
+
+# Tempo
+TEMPO_COLOR_ENTITY="$(jq -r '.tempo_color_entity // ""' "$OPTS")"
+TEMPO_BLUE_HC_PRICE="$(jq_num_or '.tempo_blue_hc_price' 0)"
+TEMPO_BLUE_HP_PRICE="$(jq_num_or '.tempo_blue_hp_price' 0)"
+TEMPO_WHITE_HC_PRICE="$(jq_num_or '.tempo_white_hc_price' 0)"
+TEMPO_WHITE_HP_PRICE="$(jq_num_or '.tempo_white_hp_price' 0)"
+TEMPO_RED_HC_PRICE="$(jq_num_or '.tempo_red_hc_price' 0)"
+TEMPO_RED_HP_PRICE="$(jq_num_or '.tempo_red_hp_price' 0)"
+
+# ============================================================
+# INPUTS
+# ============================================================
 SOLAR_ENABLED="$(bool_or_false '.solar_enabled')"
 SOLAR_INPUT_MODE="$(jq -r '.solar_input_mode // "energy"' "$OPTS")"
 SOLAR_ENERGY_ENTITY="$(jq -r '.solar_energy_entity // ""' "$OPTS")"
@@ -225,32 +239,18 @@ GRID_EXPORT_ENERGY_ENTITY="$(jq -r '.grid_export_energy_entity // ""' "$OPTS")"
 GRID_IMPORT_POWER_ENTITY="$(jq -r '.grid_import_power_entity // ""' "$OPTS")"
 GRID_EXPORT_POWER_ENTITY="$(jq -r '.grid_export_power_entity // ""' "$OPTS")"
 
-# Tarifs 1..4
-TARIFF_1_NAME="$(jq -r '.tariff_1_name // ""' "$OPTS")"
-TARIFF_1_PRICE="$(jq_num_or '.tariff_1_price' 0)"
-TARIFF_1_START="$(jq -r '.tariff_1_start // ""' "$OPTS")"
-TARIFF_1_END="$(jq -r '.tariff_1_end // ""' "$OPTS")"
+export CURRENCY CONTRACT_TYPE MONTHLY_SUBSCRIPTION_PRICE
+export FIXED_IMPORT_PRICE FIXED_EXPORT_PRICE
 
-TARIFF_2_NAME="$(jq -r '.tariff_2_name // ""' "$OPTS")"
-TARIFF_2_PRICE="$(jq_num_or '.tariff_2_price' 0)"
-TARIFF_2_START="$(jq -r '.tariff_2_start // ""' "$OPTS")"
-TARIFF_2_END="$(jq -r '.tariff_2_end // ""' "$OPTS")"
+export TARIFF_1_NAME TARIFF_1_PRICE TARIFF_1_START TARIFF_1_END
+export TARIFF_2_NAME TARIFF_2_PRICE TARIFF_2_START TARIFF_2_END
+export TARIFF_3_NAME TARIFF_3_PRICE TARIFF_3_START TARIFF_3_END
+export TARIFF_4_NAME TARIFF_4_PRICE TARIFF_4_START TARIFF_4_END
 
-TARIFF_3_NAME="$(jq -r '.tariff_3_name // ""' "$OPTS")"
-TARIFF_3_PRICE="$(jq_num_or '.tariff_3_price' 0)"
-TARIFF_3_START="$(jq -r '.tariff_3_start // ""' "$OPTS")"
-TARIFF_3_END="$(jq -r '.tariff_3_end // ""' "$OPTS")"
-
-TARIFF_4_NAME="$(jq -r '.tariff_4_name // ""' "$OPTS")"
-TARIFF_4_PRICE="$(jq_num_or '.tariff_4_price' 0)"
-TARIFF_4_START="$(jq -r '.tariff_4_start // ""' "$OPTS")"
-TARIFF_4_END="$(jq -r '.tariff_4_end // ""' "$OPTS")"
-
-export CURRENCY
-export CONTRACT_TYPE
-export MONTHLY_SUBSCRIPTION_PRICE
-export FIXED_IMPORT_PRICE
-export FIXED_EXPORT_PRICE
+export TEMPO_COLOR_ENTITY
+export TEMPO_BLUE_HC_PRICE TEMPO_BLUE_HP_PRICE
+export TEMPO_WHITE_HC_PRICE TEMPO_WHITE_HP_PRICE
+export TEMPO_RED_HC_PRICE TEMPO_RED_HP_PRICE
 
 export SOLAR_ENABLED SOLAR_INPUT_MODE SOLAR_ENERGY_ENTITY SOLAR_POWER_ENTITY
 export LOAD_ENABLED LOAD_INPUT_MODE LOAD_ENERGY_ENTITY LOAD_POWER_ENTITY
@@ -259,86 +259,6 @@ export BATTERY_CHARGE_POWER_ENTITY BATTERY_DISCHARGE_POWER_ENTITY
 export BATTERY_CAPACITY_AH BATTERY_TOTAL_CAPACITY_KWH BATTERY_PURCHASE_COST BATTERY_CYCLE_LIFE
 export GRID_ENABLED GRID_INPUT_MODE GRID_IMPORT_ENERGY_ENTITY GRID_EXPORT_ENERGY_ENTITY
 export GRID_IMPORT_POWER_ENTITY GRID_EXPORT_POWER_ENTITY
-
-export TARIFF_1_NAME TARIFF_1_PRICE TARIFF_1_START TARIFF_1_END
-export TARIFF_2_NAME TARIFF_2_PRICE TARIFF_2_START TARIFF_2_END
-export TARIFF_3_NAME TARIFF_3_PRICE TARIFF_3_START TARIFF_3_END
-export TARIFF_4_NAME TARIFF_4_PRICE TARIFF_4_START TARIFF_4_END
-
-logi "Currency: $CURRENCY"
-logi "Contract type: $CONTRACT_TYPE"
-logi "Monthly subscription price: $MONTHLY_SUBSCRIPTION_PRICE"
-logi "Solar enabled: $SOLAR_ENABLED | mode: $SOLAR_INPUT_MODE"
-logi "Load enabled: $LOAD_ENABLED | mode: $LOAD_INPUT_MODE"
-logi "Battery enabled: $BATTERY_ENABLED | mode: $BATTERY_INPUT_MODE"
-logi "Grid enabled: $GRID_ENABLED | mode: $GRID_INPUT_MODE"
-
-# ============================================================
-# BASIC VALIDATION
-# ============================================================
-if [ -z "${CURRENCY}" ]; then
-  loge "currency vide."
-  exit 1
-fi
-
-if [ -z "${MQTT_HOST:-}" ]; then
-  :
-fi
-
-if [ "$SOLAR_ENABLED" = "true" ]; then
-  if [ "$SOLAR_INPUT_MODE" = "energy" ] && [ -z "$SOLAR_ENERGY_ENTITY" ]; then
-    loge "solar_enabled=true mais solar_energy_entity est vide."
-    exit 1
-  fi
-  if [ "$SOLAR_INPUT_MODE" = "power" ] && [ -z "$SOLAR_POWER_ENTITY" ]; then
-    loge "solar_enabled=true mais solar_power_entity est vide."
-    exit 1
-  fi
-fi
-
-if [ "$LOAD_ENABLED" = "true" ]; then
-  if [ "$LOAD_INPUT_MODE" = "energy" ] && [ -z "$LOAD_ENERGY_ENTITY" ]; then
-    loge "load_enabled=true mais load_energy_entity est vide."
-    exit 1
-  fi
-  if [ "$LOAD_INPUT_MODE" = "power" ] && [ -z "$LOAD_POWER_ENTITY" ]; then
-    loge "load_enabled=true mais load_power_entity est vide."
-    exit 1
-  fi
-fi
-
-if [ "$GRID_ENABLED" = "true" ]; then
-  if [ "$GRID_INPUT_MODE" = "energy" ] && [ -z "$GRID_IMPORT_ENERGY_ENTITY" ]; then
-    loge "grid_enabled=true mais grid_import_energy_entity est vide."
-    exit 1
-  fi
-  if [ "$GRID_INPUT_MODE" = "power" ] && [ -z "$GRID_IMPORT_POWER_ENTITY" ]; then
-    loge "grid_enabled=true mais grid_import_power_entity est vide."
-    exit 1
-  fi
-fi
-
-if [ "$BATTERY_ENABLED" = "true" ]; then
-  if [ "$BATTERY_INPUT_MODE" = "energy" ] && \
-     [ -z "$BATTERY_CHARGE_ENERGY_ENTITY" ] && [ -z "$BATTERY_DISCHARGE_ENERGY_ENTITY" ]; then
-    logw "battery_enabled=true mais aucune entité énergie batterie n'est définie."
-  fi
-  if [ "$BATTERY_INPUT_MODE" = "power" ] && \
-     [ -z "$BATTERY_CHARGE_POWER_ENTITY" ] && [ -z "$BATTERY_DISCHARGE_POWER_ENTITY" ]; then
-    logw "battery_enabled=true mais aucune entité puissance batterie n'est définie."
-  fi
-fi
-
-if [ "$CONTRACT_TYPE" = "time_based" ]; then
-  if [ -z "$TARIFF_1_NAME" ] || [ -z "$TARIFF_1_START" ] || [ -z "$TARIFF_1_END" ]; then
-    loge "contract_type=time_based mais tariff_1 est incomplet."
-    exit 1
-  fi
-  if [ -z "$TARIFF_2_NAME" ] || [ -z "$TARIFF_2_START" ] || [ -z "$TARIFF_2_END" ]; then
-    loge "contract_type=time_based mais tariff_2 est incomplet."
-    exit 1
-  fi
-fi
 
 # ============================================================
 # MQTT
@@ -399,12 +319,66 @@ logi "Timezone normalized: ${ADDON_TIMEZONE_NORMALIZED}"
 if [ "$ADDON_TIMEZONE_VALID" = "true" ]; then
   logi "Timezone active: ${ADDON_TIMEZONE}"
 else
-  logw "Timezone invalide ou inconnue -> fallback UTC (requested=${ADDON_TIMEZONE_REQUESTED}, normalized=${ADDON_TIMEZONE_NORMALIZED})"
+  logw "Timezone invalide ou inconnue -> fallback UTC"
   logi "Timezone active: ${ADDON_TIMEZONE}"
 fi
 
 # ============================================================
-# STORAGE DIRS
+# VALIDATION
+# ============================================================
+if [ "$SOLAR_ENABLED" = "true" ]; then
+  if [ "$SOLAR_INPUT_MODE" = "energy" ] && [ -z "$SOLAR_ENERGY_ENTITY" ]; then
+    loge "solar_enabled=true mais solar_energy_entity est vide."
+    exit 1
+  fi
+  if [ "$SOLAR_INPUT_MODE" = "power" ] && [ -z "$SOLAR_POWER_ENTITY" ]; then
+    loge "solar_enabled=true mais solar_power_entity est vide."
+    exit 1
+  fi
+fi
+
+if [ "$LOAD_ENABLED" = "true" ]; then
+  if [ "$LOAD_INPUT_MODE" = "energy" ] && [ -z "$LOAD_ENERGY_ENTITY" ]; then
+    loge "load_enabled=true mais load_energy_entity est vide."
+    exit 1
+  fi
+  if [ "$LOAD_INPUT_MODE" = "power" ] && [ -z "$LOAD_POWER_ENTITY" ]; then
+    loge "load_enabled=true mais load_power_entity est vide."
+    exit 1
+  fi
+fi
+
+if [ "$GRID_ENABLED" = "true" ]; then
+  if [ "$GRID_INPUT_MODE" = "energy" ] && [ -z "$GRID_IMPORT_ENERGY_ENTITY" ]; then
+    loge "grid_enabled=true mais grid_import_energy_entity est vide."
+    exit 1
+  fi
+  if [ "$GRID_INPUT_MODE" = "power" ] && [ -z "$GRID_IMPORT_POWER_ENTITY" ]; then
+    loge "grid_enabled=true mais grid_import_power_entity est vide."
+    exit 1
+  fi
+fi
+
+if [ "$CONTRACT_TYPE" = "time_based" ]; then
+  if [ -z "$TARIFF_1_NAME" ] || [ -z "$TARIFF_1_START" ] || [ -z "$TARIFF_1_END" ]; then
+    loge "contract_type=time_based mais tariff_1 est incomplet."
+    exit 1
+  fi
+  if [ -z "$TARIFF_2_NAME" ] || [ -z "$TARIFF_2_START" ] || [ -z "$TARIFF_2_END" ]; then
+    loge "contract_type=time_based mais tariff_2 est incomplet."
+    exit 1
+  fi
+fi
+
+if [ "$CONTRACT_TYPE" = "tempo" ]; then
+  if [ -z "$TEMPO_COLOR_ENTITY" ]; then
+    loge "contract_type=tempo mais tempo_color_entity est vide."
+    exit 1
+  fi
+fi
+
+# ============================================================
+# STORAGE
 # ============================================================
 mkdir -p "$DASHBOARDS_DIR"
 mkdir -p "$ADDON_DATA_DIR"
@@ -433,8 +407,6 @@ if ! jq -e '.[] | select(.type=="mqtt-broker" and .name=="HA MQTT Broker")' /dat
   exit 1
 fi
 
-logi "Injection MQTT (broker/port/user) dans flows.json"
-
 jq \
   --arg host "$MQTT_HOST" \
   --arg port "$MQTT_PORT" \
@@ -442,21 +414,14 @@ jq \
   '
   map(
     if .type=="mqtt-broker" and .name=="HA MQTT Broker"
-    then
-      .broker=$host
-      | .port=$port
-      | .user=$user
+    then .broker=$host | .port=$port | .user=$user
     else .
     end
   )
   ' /data/flows.json > "$TMP" && mv "$TMP" /data/flows.json
 
-# ============================================================
-# flows_cred.json
-# ============================================================
 if [ -f /data/flows_cred.json ]; then
   rm -f /data/flows_cred.json
-  logw "Ancien flows_cred.json supprimé"
 fi
 
 BROKER_ID="$(jq -r '.[] | select(.type=="mqtt-broker" and .name=="HA MQTT Broker") | .id' /data/flows.json)"
@@ -465,8 +430,6 @@ if [ -z "$BROKER_ID" ]; then
   loge "Impossible de récupérer l'ID du node mqtt-broker dans flows.json"
   exit 1
 fi
-
-logi "Broker node ID: $BROKER_ID — Création flows_cred.json"
 
 jq -n \
   --arg id "$BROKER_ID" \
@@ -478,16 +441,7 @@ jq -n \
 logi "flows_cred.json créé avec succès"
 
 # ============================================================
-# Dashboard info
-# ============================================================
-if [ "$DASHBOARD_CUSTOM_CARDS_INSTALLED" = "true" ]; then
-  logi "Dashboard: mode custom cards activé"
-else
-  logw "Dashboard: mode dégradé natif HA actif tant que dashboard_custom_cards_installed=false"
-fi
-
-# ============================================================
-# Summary
+# SUMMARY
 # ============================================================
 logi "Résumé configuration:"
 logi "- Currency: $CURRENCY"
@@ -499,7 +453,7 @@ logi "- Battery: $BATTERY_ENABLED ($BATTERY_INPUT_MODE)"
 logi "- Grid: $GRID_ENABLED ($GRID_INPUT_MODE)"
 
 # ============================================================
-# Start Node-RED
+# START
 # ============================================================
 logi "Starting Node-RED sur le port 1892..."
 exec node-red --userDir /data --settings /addon/settings.js
