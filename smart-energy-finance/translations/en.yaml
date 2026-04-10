@@ -1,0 +1,193 @@
+configuration:
+  general_section:
+    name: "────────── GENERAL ──────────"
+  currency:
+    name: "Currency"
+  mqtt_prefix:
+    name: "MQTT Prefix"
+
+  contract_section:
+    name: "────────── CONTRACT ──────────"
+  contract_type:
+    name: "Contract type"
+    options:
+      fixed: "Fixed"
+      time_based: "Time-based"
+      tempo: "Tempo"
+  monthly_subscription_price:
+    name: "Monthly subscription price"
+
+  fixed_import_price:
+    name: "Fixed import price per kWh"
+  fixed_export_price:
+    name: "Fixed export price per kWh"
+
+  tariff_1_name:
+    name: "Tariff 1 name"
+  tariff_1_price:
+    name: "Tariff 1 price"
+  tariff_1_start:
+    name: "Tariff 1 start"
+  tariff_1_end:
+    name: "Tariff 1 end"
+
+  tariff_2_name:
+    name: "Tariff 2 name"
+  tariff_2_price:
+    name: "Tariff 2 price"
+  tariff_2_start:
+    name: "Tariff 2 start"
+  tariff_2_end:
+    name: "Tariff 2 end"
+
+  tariff_3_name:
+    name: "Tariff 3 name"
+  tariff_3_price:
+    name: "Tariff 3 price"
+  tariff_3_start:
+    name: "Tariff 3 start"
+  tariff_3_end:
+    name: "Tariff 3 end"
+
+  tariff_4_name:
+    name: "Tariff 4 name"
+  tariff_4_price:
+    name: "Tariff 4 price"
+  tariff_4_start:
+    name: "Tariff 4 start"
+  tariff_4_end:
+    name: "Tariff 4 end"
+
+  tempo_section:
+    name: "────────── TEMPO ──────────"
+  tempo_color_entity:
+    name: "Tempo color entity"
+  tempo_blue_hc_price:
+    name: "Tempo blue off-peak"
+  tempo_blue_hp_price:
+    name: "Tempo blue peak"
+  tempo_white_hc_price:
+    name: "Tempo white off-peak"
+  tempo_white_hp_price:
+    name: "Tempo white peak"
+  tempo_red_hc_price:
+    name: "Tempo red off-peak"
+  tempo_red_hp_price:
+    name: "Tempo red peak"
+  tempo_hc_slot_1_start:
+    name: "Tempo off-peak slot 1 start"
+  tempo_hc_slot_1_end:
+    name: "Tempo off-peak slot 1 end"
+  tempo_hc_slot_2_start:
+    name: "Tempo off-peak slot 2 start"
+  tempo_hc_slot_2_end:
+    name: "Tempo off-peak slot 2 end"
+  tempo_hc_slot_3_start:
+    name: "Tempo off-peak slot 3 start"
+  tempo_hc_slot_3_end:
+    name: "Tempo off-peak slot 3 end"
+
+  solar_section:
+    name: "────────── SOLAR ──────────"
+  solar_enabled:
+    name: "Enable solar"
+  solar_input_mode:
+    name: "Solar input mode"
+    options:
+      energy: "Energy"
+      power: "Power"
+  solar_energy_entity:
+    name: "Solar energy entity"
+  solar_power_entity:
+    name: "Solar power entity"
+
+  load_section:
+    name: "────────── LOAD ──────────"
+  load_enabled:
+    name: "Enable load"
+  load_input_mode:
+    name: "Load input mode"
+    options:
+      energy: "Energy"
+      power: "Power"
+  load_energy_entity:
+    name: "Load energy entity"
+  load_power_entity:
+    name: "Load power entity"
+
+  battery_section:
+    name: "────────── BATTERY ──────────"
+  battery_enabled:
+    name: "Enable battery"
+  battery_input_mode:
+    name: "Battery input mode"
+    options:
+      energy: "Energy"
+      power: "Power"
+  battery_charge_energy_entity:
+    name: "Battery charge energy entity"
+  battery_discharge_energy_entity:
+    name: "Battery discharge energy entity"
+  battery_charge_power_entity:
+    name: "Battery charge power entity"
+  battery_discharge_power_entity:
+    name: "Battery discharge power entity"
+  battery_capacity_ah:
+    name: "Battery capacity in Ah"
+  battery_total_capacity_kwh:
+    name: "Battery total capacity in kWh"
+  battery_purchase_cost:
+    name: "Battery cost"
+  battery_cycle_life:
+    name: "Battery cycle life"
+
+  grid_section:
+    name: "────────── GRID / IMPORT EXPORT ──────────"
+  grid_enabled:
+    name: "Enable grid"
+  grid_input_mode:
+    name: "Grid input mode"
+    options:
+      energy: "Energy"
+      power: "Power"
+  grid_import_energy_entity:
+    name: "Grid import energy entity"
+  grid_export_energy_entity:
+    name: "Grid export energy entity"
+  grid_import_power_entity:
+    name: "Grid import power entity"
+  grid_export_power_entity:
+    name: "Grid export power entity"
+
+  mqtt_section:
+    name: "────────── MQTT ──────────"
+  mqtt_host:
+    name: "MQTT host"
+  mqtt_port:
+    name: "MQTT port"
+  mqtt_user:
+    name: "MQTT user"
+  mqtt_pass:
+    name: "MQTT password"
+
+  premium_section:
+    name: "────────── PREMIUM ──────────"
+  premium_key:
+    name: "Premium key"
+
+  dashboard_section:
+    name: "────────── DASHBOARD ──────────"
+  dashboard_custom_cards_installed:
+    name: "Custom cards installed"
+  dashboard_language:
+    name: "Dashboard language"
+    options:
+      en: "English"
+      fr: "French"
+
+  timezone_section:
+    name: "────────── TIMEZONE ──────────"
+  timezone_mode:
+    name: "Timezone"
+  timezone_custom:
+    name: "Custom timezone"
