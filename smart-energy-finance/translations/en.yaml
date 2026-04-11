@@ -3,8 +3,6 @@ configuration:
     name: "────────── GENERAL ──────────"
   currency:
     name: "Currency"
-  mqtt_prefix:
-    name: "MQTT Prefix"
 
   contract_section:
     name: "────────── CONTRACT ──────────"
@@ -12,7 +10,7 @@ configuration:
     name: "Contract type"
     options:
       fixed: "Fixed"
-      time_based: "Time-based"
+      time_based: "Time based"
       tempo: "Tempo"
   monthly_subscription_price:
     name: "Monthly subscription price"
@@ -82,10 +80,6 @@ configuration:
     name: "Tempo off-peak slot 2 start"
   tempo_hc_slot_2_end:
     name: "Tempo off-peak slot 2 end"
-  tempo_hc_slot_3_start:
-    name: "Tempo off-peak slot 3 start"
-  tempo_hc_slot_3_end:
-    name: "Tempo off-peak slot 3 end"
 
   solar_section:
     name: "────────── SOLAR ──────────"
@@ -133,13 +127,9 @@ configuration:
   battery_discharge_power_entity:
     name: "Battery discharge power entity"
   battery_capacity_ah:
-    name: "Battery capacity in Ah"
+    name: "Battery capacity (Ah)"
   battery_total_capacity_kwh:
-    name: "Battery total capacity in kWh"
-  battery_purchase_cost:
-    name: "Battery cost"
-  battery_cycle_life:
-    name: "Battery cycle life"
+    name: "Battery total capacity (kWh)"
 
   grid_section:
     name: "────────── GRID / IMPORT EXPORT ──────────"
