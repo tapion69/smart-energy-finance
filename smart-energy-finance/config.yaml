@@ -29,7 +29,6 @@ panel_icon: mdi:cash-multiple
 options:
   general_section: "────────── GENERAL ──────────"
   currency: "EUR"
-  mqtt_prefix: "smart_energy_finance"
 
   contract_section: "────────── CONTRACT ──────────"
   contract_type: "fixed"
@@ -71,8 +70,6 @@ options:
   tempo_hc_slot_1_end: "06:00"
   tempo_hc_slot_2_start: ""
   tempo_hc_slot_2_end: ""
-  tempo_hc_slot_3_start: ""
-  tempo_hc_slot_3_end: ""
 
   solar_section: "────────── SOLAR ──────────"
   solar_enabled: true
@@ -95,8 +92,6 @@ options:
   battery_discharge_power_entity: ""
   battery_capacity_ah: 0
   battery_total_capacity_kwh: 0
-  battery_purchase_cost: 0
-  battery_cycle_life: 0
 
   grid_section: "────────── GRID / IMPORT EXPORT ──────────"
   grid_enabled: true
@@ -126,7 +121,6 @@ options:
 schema:
   general_section: str?
   currency: list(EUR|USD|GBP|CAD|AUD|CHF|JPY|CNY|INR|BRL|ZAR|CUSTOM)
-  mqtt_prefix: str?
 
   contract_section: str?
   contract_type: list(fixed|time_based|tempo)
@@ -167,8 +161,6 @@ schema:
   tempo_hc_slot_1_end: str?
   tempo_hc_slot_2_start: str?
   tempo_hc_slot_2_end: str?
-  tempo_hc_slot_3_start: str?
-  tempo_hc_slot_3_end: str?
 
   solar_section: str?
   solar_enabled: bool
@@ -191,8 +183,6 @@ schema:
   battery_discharge_power_entity: str?
   battery_capacity_ah: float?
   battery_total_capacity_kwh: float?
-  battery_purchase_cost: float?
-  battery_cycle_life: int?
 
   grid_section: str?
   grid_enabled: bool
