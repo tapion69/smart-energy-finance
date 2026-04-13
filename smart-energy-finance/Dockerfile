@@ -24,8 +24,12 @@ RUN npm i --omit=dev --no-audit --no-fund \
     node-red-contrib-home-assistant-websocket \
   && npm cache clean --force
 
+WORKDIR /addon
+COPY package.json /addon/package.json
+RUN npm install --omit=dev --no-audit --no-fund \
+  && npm cache clean --force
+
 COPY . /addon
 RUN chmod a+x /addon/run.sh
 
-WORKDIR /addon
 ENTRYPOINT ["/addon/run.sh"]
