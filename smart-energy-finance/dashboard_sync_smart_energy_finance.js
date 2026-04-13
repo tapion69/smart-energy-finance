@@ -2,6 +2,7 @@
 "use strict";
 
 const fs = require("fs");
+const WebSocket = require("ws");
 
 const action = process.argv[2] || "upsert";
 const filePath = process.argv[3] || "/config/dashboards/smart_energy_finance.json";
@@ -11,11 +12,6 @@ const wsUrl = "ws://supervisor/core/websocket";
 
 if (!token) {
   console.error(JSON.stringify({ ok: false, error: "Supervisor token missing" }));
-  process.exit(1);
-}
-
-if (typeof WebSocket === "undefined") {
-  console.error(JSON.stringify({ ok: false, error: "Global WebSocket not available" }));
   process.exit(1);
 }
 
