@@ -23,6 +23,11 @@ INSTANCE_FILE="/data/smart_energy_finance_instance_id"
 ADDON_DATA_DIR="/data/smart-energy-finance"
 DASHBOARDS_DIR="/config/dashboards"
 
+# Runtime npm deps
+RUNTIME_NODE_DIR="$ADDON_DATA_DIR/node_runtime"
+RUNTIME_NODE_MODULES="$RUNTIME_NODE_DIR/node_modules"
+RUNTIME_PKG="$RUNTIME_NODE_DIR/package.json"
+
 if [ ! -f "$OPTS" ]; then
   loge "options.json introuvable dans /data. Stop."
   exit 1
@@ -123,6 +128,45 @@ validate_timezone_or_fallback() {
     echo "$tz"
   else
     echo "UTC"
+  fi
+}
+
+ensure_runtime_ws() {
+  mkdir -p "$RUNTIME_NODE_DIR"
+
+  if [ ! -f "$RUNTIME_PKG" ]; then
+    cat > "$RUNTIME_PKG" <<'EOF'
+{
+  "name": "smart-energy-finance-runtime",
+  "private": true,
+  "version": "1.0.0"
+}
+EOF
+  fi
+
+  export NODE_PATH="$RUNTIME_NODE_MODULES${NODE_PATH:+:$NODE_PATH}"
+
+  if node -e "require('ws');" >/dev/null 2>&1; then
+    logi "Runtime dependency 'ws' already available"
+    return
+  fi
+
+  if ! command -v npm >/dev/null 2>&1; then
+    loge "npm introuvable dans le conteneur, impossible d'installer 'ws'"
+    exit 1
+  fi
+
+  logi "Installing runtime dependency: ws"
+  (
+    cd "$RUNTIME_NODE_DIR"
+    npm install --no-save --omit=dev --no-audit --no-fund ws@8.18.0
+  )
+
+  if node -e "require('ws');" >/dev/null 2>&1; then
+    logi "Runtime dependency 'ws' installed successfully"
+  else
+    loge "Installation de 'ws' échouée"
+    exit 1
   fi
 }
 
@@ -252,7 +296,10 @@ if [ "$ADDON_TIMEZONE" != "$TZ_NORMALIZED" ]; then
 fi
 
 export TZ="$ADDON_TIMEZONE"
-export ADDON_TIMEZONE ADDON_TIMEZONE_REQUESTED="$TZ_REQUESTED" ADDON_TIMEZONE_NORMALIZED="$TZ_NORMALIZED" ADDON_TIMEZONE_VALID="$TIMEZONE_VALID"
+export ADDON_TIMEZONE
+export ADDON_TIMEZONE_REQUESTED="$TZ_REQUESTED"
+export ADDON_TIMEZONE_NORMALIZED="$TZ_NORMALIZED"
+export ADDON_TIMEZONE_VALID="$TIMEZONE_VALID"
 
 # EXPORT ALL
 export CURRENCY CONTRACT_TYPE MONTHLY_SUBSCRIPTION_PRICE FIXED_IMPORT_PRICE FIXED_EXPORT_PRICE
@@ -267,6 +314,7 @@ export LOAD_ENABLED LOAD_INPUT_MODE LOAD_ENERGY_ENTITY LOAD_POWER_ENTITY
 export BATTERY_ENABLED BATTERY_INPUT_MODE BATTERY_CHARGE_ENERGY_ENTITY BATTERY_DISCHARGE_ENERGY_ENTITY BATTERY_CHARGE_POWER_ENTITY BATTERY_DISCHARGE_POWER_ENTITY BATTERY_CAPACITY_AH BATTERY_TOTAL_CAPACITY_KWH
 export GRID_ENABLED GRID_INPUT_MODE GRID_IMPORT_ENERGY_ENTITY GRID_EXPORT_ENERGY_ENTITY GRID_IMPORT_POWER_ENTITY GRID_EXPORT_POWER_ENTITY
 export MQTT_HOST MQTT_PORT MQTT_USER MQTT_PASS
+export NODE_PATH
 
 # BASIC VALIDATION
 if [ "$SOLAR_ENABLED" = "true" ] && [ "$SOLAR_INPUT_MODE" = "energy" ] && [ -z "$SOLAR_ENERGY_ENTITY" ]; then
@@ -299,6 +347,9 @@ fi
 # STORAGE
 mkdir -p "$DASHBOARDS_DIR"
 mkdir -p "$ADDON_DATA_DIR"
+
+# Install runtime deps before Node-RED starts
+ensure_runtime_ws
 
 # FLOWS
 ADDON_FLOWS_VERSION="$(cat /addon/flows_version.txt 2>/dev/null || echo '0.0.0')"
