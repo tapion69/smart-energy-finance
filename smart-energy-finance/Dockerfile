@@ -30,6 +30,14 @@ RUN npm install --omit=dev --no-audit --no-fund \
   && npm cache clean --force
 
 COPY . /addon
+
+RUN npm install --omit=dev --no-audit --no-fund ws \
+  && npm cache clean --force
+
+RUN mkdir -p /etc/node-red \
+  && cp /addon/dashboard_sync.js /etc/node-red/dashboard_sync.js \
+  && chmod a+x /etc/node-red/dashboard_sync.js
+
 RUN chmod a+x /addon/run.sh
 
 ENTRYPOINT ["/addon/run.sh"]
