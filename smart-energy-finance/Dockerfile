@@ -27,6 +27,7 @@ RUN npm i --omit=dev --no-audit --no-fund \
 WORKDIR /addon
 COPY package.json /addon/package.json
 RUN npm install --omit=dev --no-audit --no-fund \
+    ws \
   && npm cache clean --force
 
 COPY . /addon
