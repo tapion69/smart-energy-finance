@@ -21,12 +21,21 @@ if (typeof WebSocket !== "undefined") {
 } else {
   try {
     WebSocketImpl = require("ws");
-  } catch (e) {
-    console.error(JSON.stringify({
-      ok: false,
-      error: "WebSocket not available and ws module missing"
-    }));
-    process.exit(1);
+  } catch (e1) {
+    try {
+      WebSocketImpl = require("/addon/node_modules/ws");
+    } catch (e2) {
+      console.error(JSON.stringify({
+        ok: false,
+        error: "WebSocket not available and ws module missing",
+        tried: [
+          "native WebSocket",
+          "require('ws')",
+          "require('/addon/node_modules/ws')"
+        ]
+      }));
+      process.exit(1);
+    }
   }
 }
 
