@@ -31,9 +31,6 @@ RUN npm install --omit=dev --no-audit --no-fund \
 
 COPY . /addon
 
-RUN npm install --omit=dev --no-audit --no-fund ws \
-  && npm cache clean --force
-
 RUN mkdir -p /etc/node-red \
   && cp /addon/dashboard_sync.js /etc/node-red/dashboard_sync.js \
   && chmod a+x /etc/node-red/dashboard_sync.js
